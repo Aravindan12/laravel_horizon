@@ -17,3 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('test', [MailController::class,'index']);
+Route::get('test-batch', [MailController::class,'jobBatching']);
+Route::get('test-chain', [MailController::class,'jobChaining']);

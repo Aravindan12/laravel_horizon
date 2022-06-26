@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use App\Models\Order;
+use Illuminate\Bus\Batchable;
 use Log;
 class SendOrderEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels,Batchable;
 
     /**
      * Create a new job instance.
