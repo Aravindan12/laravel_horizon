@@ -7,25 +7,19 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Laravel Job batching
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Laravel job batching is used to execute a set of job at parallel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- We need to use Bus class and batch function for this inside this need to add an array an add the required jobs at required times.
+- Inside the job need to use Batchable class to know that the job is execute as a batch.
+- We need to migrate job-batchables table to store the each batch records in db.
+- Using this we can retrive a particular using id, name and we can list failed job,processed job list through this.
+- And also batch provides then fuction to add logic after the jobs completed and catch for need to do while job fails and finally for logic need to       execute after the batch completed.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## About Laravel Job chaining
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Laravel job chaining chain jobs which has the depended of previous job.If the previous job fails rest of thejob won't run after that.Tis also similar to job batching we need to use chain function bus class.
 
 ## Laravel Sponsors
 
