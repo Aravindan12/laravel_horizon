@@ -7,19 +7,35 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Laravel Horizon
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Laravel is queue monitorig dashboard to get this in your project we need to do few steps listed below:
+- create a job and dispatch it in your controller.
+- composer require predis/predis for redis connection.
+- QUEUE_CONNECTION=redis make queue connection in redis to get realtime update
+- 'client' => env('REDIS_CLIENT', 'predis'), make predis as a client in redis key inside the database.php
+- composer require laravel/horizon and the install horizonn package and publish it.
+- 'local' => [
+      'supervisor-1' => [
+          'connection' => 'redis',
+          'queue' => ['email'],
+          'balance' => 'auto',
+          'processes' => 6,
+          'tries' => 3,
+    ],
+    ],
+    make these changes in horizon.php.
+- use ->onQueue('email') while dispatching a job.
+- use php artisan horizon instead of queue:work.
+- Horizon::auth(function ($request) {
+            // Always show admin if local development
+            if (env('APP_ENV') == 'local') {
+                return true;
+            }
+        });
+   These code inside your AppServiceProvider.
+ - http://your_ip/horizon while provide the horizon dashboard.
+You will able to see the queue report in that dashboard.
 
 ## Learning Laravel
 
