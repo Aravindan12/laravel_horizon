@@ -13,12 +13,21 @@ use Log;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
 use Hash;
+use Auth;
 class MailController extends Controller
 {
 
     /**
+     * @OA\SecurityScheme(
+     *      securityScheme="bearerAuth",
+     *      in="header",
+     *      name="bearerAuth",
+     *      type="http",
+     *      scheme="bearer",
+     *      bearerFormat="JWT",
+     * ),
      * @OA\Get(
-     *      path="/test",
+     *      path="/api/test",
      *      operationId="index",
      *      tags={"Projects"},
      *      summary="Get list of projects",
@@ -53,7 +62,7 @@ class MailController extends Controller
 
     /**
          * @OA\Get(
-         *      path="/test-batch",
+         *      path="/api/test-batch",
          *      operationId="jobBatching",
          *      tags={"Projects"},
          *      summary="Execute job as batch",
@@ -217,6 +226,26 @@ class MailController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
-        return "user added successfully";
+        $token = $user->createToken('authToken')->plainTextToken;
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            ]);
+    }
+
+    public function login(Request $request){
+        if (!\Auth::attempt($request->only('email', 'password'))) {
+               return response()->json([
+                'message' => 'Login information is invalid.'
+              ], 401);
+        }
+ 
+        $user = User::where('email', $request['email'])->firstOrFail();
+                $token = $user->createToken('authToken')->plainTextToken;
+ 
+            return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            ]);
     }
 }

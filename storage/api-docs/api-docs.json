@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/test": {
+        "/api/test": {
             "get": {
                 "tags": [
                     "Projects"
@@ -26,7 +26,7 @@
                 }
             }
         },
-        "/test-batch": {
+        "/api/test-batch": {
             "get": {
                 "tags": [
                     "Projects"
@@ -120,5 +120,25 @@
                 }
             }
         }
-    }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
 }
